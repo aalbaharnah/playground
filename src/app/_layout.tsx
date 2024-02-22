@@ -2,6 +2,7 @@ import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
 import { Text, View } from 'react-native';
 import Provider from '../context/provider';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 
 
@@ -28,10 +29,12 @@ export default function Layout() {
 
     return (
         <Provider>
-            <View className="flex-1 bg-background">
-                {/* Main Stack */}
-                <Stack screenOptions={{ headerShown: false }} />
-            </View>
+            <GestureHandlerRootView style={{ flex: 1 }}>
+                <View className="flex-1 bg-background">
+                    {/* Main Stack */}
+                    <Stack screenOptions={{ headerShown: false }} />
+                </View>
+            </GestureHandlerRootView>
         </Provider>
     )
 }

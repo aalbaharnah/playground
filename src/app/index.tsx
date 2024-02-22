@@ -1,60 +1,55 @@
-import { Platform, View } from "react-native";
+import { Platform, Text, View, StyleSheet, FlatList } from "react-native";
 import AddPlayersStep from "../components/steps/add-players";
 import Constants from "expo-constants";
-import Animated, { Easing, runOnJS, scrollTo, useAnimatedRef, useDerivedValue, useSharedValue, withSpring, withTiming } from "react-native-reanimated";
+import Animated, { Easing, interpolate, interpolateColor, runOnJS, scrollTo, useAnimatedRef, useAnimatedStyle, useDerivedValue, useSharedValue, withSpring, withTiming } from "react-native-reanimated";
 import useDimensions from "../hooks/useDimensions";
-import * as Haptics from 'expo-haptics';
-import SetTeams from "../components/steps/set-teams";
-import TeamsResult from "../components/steps/teams-result";
-import { useState } from "react";
+import {
+    Gesture,
+    GestureDetector,
+    GestureHandlerRootView,
+} from 'react-native-gesture-handler';
+import { ReText } from "react-native-redash";
+import Touchable from "../components/touchable";
+import { Ionicons } from "@expo/vector-icons";
+import { useRouter } from "expo-router";
 
 export default function Index() {
-    const { width, height } = useDimensions('screen')
-    const scrollX = useSharedValue(width * 2);
-    const ref = useAnimatedRef<Animated.ScrollView>();
-
-    const [end, setEnd] = useState(false);
-
-    const onNext = (step: number) => {
-        scrollX.value = withTiming(step * width, {
-            duration: 800,
-            easing: Easing.bezier(0.5, 0.01, 0, 1),
-        }, () => {
-            runOnJS(setEnd)(step === 0);
-        });
-        Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium)
-    }
-
-    useDerivedValue(() => {
-        scrollTo(ref, scrollX.value, 0, Platform.OS === 'android');
-    }, [scrollX]);
-
-    const style = { height: height - Constants.statusBarHeight, width }
+    const router = useRouter();
 
     return (
-        <View className="flex-1 bg-background" style={{ paddingTop: Constants.statusBarHeight }}>
-            <Animated.ScrollView
-                ref={ref}
-                horizontal
-                pagingEnabled
-                keyboardDismissMode="on-drag"
-                keyboardShouldPersistTaps="always"
-                contentOffset={{ x: width * 2, y: 0 }}
-                scrollEnabled={false}
-            >
-                <View style={style}>
-                    <TeamsResult end={end} onPrev={() => onNext(1)} />
-                </View>
-
-                <View style={style}>
-                    <SetTeams onNext={() => onNext(0)} onPrev={() => onNext(2)} />
-                </View>
-
-                <View style={style}>
-                    <AddPlayersStep onNext={() => onNext(1)} />
-                </View>
-
-            </Animated.ScrollView>
+        <View className="flex-1  bg-background" style={{ paddingTop: Constants.statusBarHeight }}>
+            <FlatList
+                data={['drag-emoji', 'email-client']}
+                keyExtractor={(item) => item}
+                ItemSeparatorComponent={() => <View className="h-1 " />}
+                renderItem={({ item }) => (
+                    <Touchable
+                        className="h-12 flex-row bg-emerald-200 items-center border-t border-b border-white justify-between px-8 "
+                        onPress={() => router.push(item)}
+                    >
+                        <Text className=" text-lg ">{item}</Text>
+                        <Ionicons name="arrow-forward" size={18} color="#000" />
+                    </Touchable>
+                )}
+            />
         </View>
     )
 }
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        height: '100%',
+    },
+    circle: {
+        height: 140,
+        width: 140,
+        borderRadius: 70,
+        alignItems: 'center',
+        justifyContent: 'center',
+        position: 'absolute',
+        overflow: 'hidden',
+    },
+});
