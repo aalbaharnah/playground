@@ -31,7 +31,7 @@ export default function EmailClient() {
     return (
         <View className="flex-1 bg-[#F4EAE0] flex-row md:p-8">
             <View className="flex-1 bg-white  rounded-3xl">
-                <View className="flex-row items-center pt-12 md:pt-0 py-2 border-b border-[#F4DFC8] justify-between mx-4">
+                <View className="flex-row items-center mt-16 md:mt-0 pt-12 md:pt-0 py-2 border-b border-[#F4DFC8] justify-between mx-4">
                     <Touchable className="p-2">
                         <Feather name="trash" size={20} color="#000" />
                     </Touchable>
@@ -39,7 +39,7 @@ export default function EmailClient() {
                         <Touchable className="p-2">
                             <Feather name="search" size={20} color="#000" />
                         </Touchable>
-                        <Touchable className="p-2">
+                        <Touchable className="p-2" onPress={() => addEmails()}>
                             <Feather name="message-square" size={20} color="#000" />
                         </Touchable>
                     </View>
@@ -58,7 +58,6 @@ export default function EmailClient() {
                         />
                     )}
                 />
-                <View className="flex-1" />
             </View>
             <View className=" hidden md:flex" style={{ flex: 0.3333 }}>
                 <View className="ml-5 border-b border-[#ebd9c6] ">

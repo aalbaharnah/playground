@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { Text, View, Pressable } from "react-native";
-import Animated, { Easing, WithTimingConfig, interpolate, interpolateColor, runOnJS, useAnimatedStyle, useSharedValue, withSpring, withTiming } from "react-native-reanimated";
+import Animated, { Easing, ReduceMotion, WithTimingConfig, interpolate, interpolateColor, runOnJS, useAnimatedStyle, useSharedValue, withSpring, withTiming } from "react-native-reanimated";
 
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
@@ -22,6 +22,7 @@ export default function Mail(props: MailProps) {
             overshootClamping: false,
             restDisplacementThreshold: 0.01,
             restSpeedThreshold: 2,
+            reduceMotion: ReduceMotion.System,
         });
     }, [])
 
@@ -35,6 +36,7 @@ export default function Mail(props: MailProps) {
         height.value = withTiming(0, {
             duration: 400,
             easing: Easing.inOut(Easing.ease),
+            reduceMotion: ReduceMotion.System,
         }, () => {
             runOnJS(props.onPress)();
         })
@@ -45,7 +47,7 @@ export default function Mail(props: MailProps) {
         <AnimatedPressable style={animatedStyle} onPress={onPress} className="mx-4 justify-center border-b border-[#F4DFC8] overflow-hidden">
             <Animated.Text className=" font-bold text-lg text-right">{props.name}</Animated.Text>
             <Animated.Text className=" my-2 font-semibold text-base text-right">{props.subject}</Animated.Text>
-            <Animated.Text className=" text-right text-base">{props.message}</Animated.Text>
+            <Animated.Text numberOfLines={2} className=" text-right text-base">{props.message}</Animated.Text>
         </AnimatedPressable>
     )
 }
