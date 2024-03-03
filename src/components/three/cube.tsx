@@ -10,7 +10,7 @@ interface CubeProps extends React.ComponentProps<'mesh'> {
 export default function Cube(props: CubeProps) {
     const [active, setActive] = useState(false);
 
-    const ref = useRef<THREE.Mesh>();
+    const ref = useRef<THREE.Mesh>(null);
 
     useFrame((state, delta) => {
         if (active) {

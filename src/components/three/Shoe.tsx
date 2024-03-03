@@ -20,8 +20,8 @@ export default function Shoe(props: ShoeProps) {
         require('../../../assets/Airmax/textures/Roughness.png'),
     ])
 
-    const materialBuffer = useLoader(MaterialLoader, require('../../../assets/Airmax/shoe.mtl'));
-    const objBuffer = useLoader(ObjectLoader, require('../../../assets/Airmax/shoe.obj'));
+    const objBuffer = useLoader(THREE.FileLoader, require('../../../assets/Airmax/shoe.obj'));
+    //@ts-ignore
     const obj = useMemo(() => new OBJLoader().parse(THREE.LoaderUtils.decodeText(objBuffer)), [objBuffer])
 
 
