@@ -8,6 +8,7 @@ import {
     GestureHandlerRootView,
 } from 'react-native-gesture-handler';
 import { ReText } from "react-native-redash";
+import { Suspense } from "react";
 
 export default function DragEmoji() {
     const { width, height } = useDimensions('screen')
@@ -50,7 +51,7 @@ export default function DragEmoji() {
 
     const animatedText2 = useAnimatedStyle(() => ({
         fontSize: interpolate(offsetX.value + offsetY.value, [-100, -50, 0], [140, 120, 96]),
-        opacity: interpolate(offsetX.value + offsetY.value, [-100, -50, 0], [1, 0]),
+        opacity: interpolate(offsetX.value + offsetY.value, [-100, -50], [1, 0]),
         color: interpolateColor(pressed.value, [-2, -1, 0, 1, 2], ["#fff", "#000", "#000", "#000", "#fff"]),
     }));
 
@@ -108,4 +109,8 @@ const styles = StyleSheet.create({
         position: 'absolute',
         overflow: 'hidden',
     },
+    txt: {
+        // position: 'absolute',
+        // zIndex: -10
+    }
 });

@@ -12,7 +12,7 @@ interface ShoeProps extends React.ComponentProps<'mesh'> {
 }
 
 export default function Shoe(props: ShoeProps) {
-    const ref = useRef<THREE.Mesh>();
+    const ref = useRef<any>();
 
     const [base, normal, roughness] = useLoader(TextureLoader, [
         require('../../../assets/Airmax/textures/BaseColor.jpg'),
