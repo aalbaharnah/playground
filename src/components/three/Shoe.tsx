@@ -3,6 +3,7 @@ import { THREE } from "expo-three";
 import { useLayoutEffect, useMemo, useRef, useState } from "react";
 import { MTLLoader } from "three/examples/jsm/loaders/MTLLoader";
 import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader';
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { TextureLoader } from "expo-three";
 import { MaterialLoader, ObjectLoader } from "three";
 import { useAnimatedSensor, SensorType } from 'react-native-reanimated';
@@ -19,6 +20,10 @@ export default function Shoe(props: ShoeProps) {
         require('../../../assets/Airmax/textures/Normal.jpg'),
         require('../../../assets/Airmax/textures/Roughness.png'),
     ])
+
+    // const obj2Buffer = useLoader(THREE.FileLoader, require('../../../assets/Airmax/model.gltf'));
+    // //@ts-ignore
+    // const obj2 = useMemo(() => new GLTFLoader().parse(THREE.LoaderUtils.decodeText(obj2Buffer)), [obj2Buffer])
 
     const objBuffer = useLoader(THREE.FileLoader, require('../../../assets/Airmax/shoe.obj'));
     //@ts-ignore
@@ -48,7 +53,7 @@ export default function Shoe(props: ShoeProps) {
 
 
     return (
-        <mesh ref={ref} position={[0,0,0]}>
+        <mesh ref={ref} position={[0, 0, 0]}>
             <primitive object={obj} scale={10} />
         </mesh>
     )
