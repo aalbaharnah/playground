@@ -85,8 +85,8 @@ export default function DragEmoji() {
                         <ReText style={{ fontSize: 96, }} text={val} />
                     </Animated.View>
                 </GestureDetector>
-                <Animated.Text style={animatedText2} className={'absolute font-Rakkas -z-10'}>{"هههه"}</Animated.Text>
-                <Animated.Text style={animatedText} className={'absolute font-Rakkas -z-10'}>{"لآآآآه"}</Animated.Text>
+                <Animated.Text style={animatedText2} className={'absolute font-Rakkas -z-10'}>{"يااااه"}</Animated.Text>
+                <Animated.Text style={animatedText} className={'absolute font-Rakkas -z-10'}>{"لالالا"}</Animated.Text>
             </View>
         </Animated.View>
     )
