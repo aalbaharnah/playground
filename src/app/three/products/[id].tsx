@@ -8,7 +8,8 @@ import useDimensions from "../../../hooks/useDimensions";
 import products, { Product } from "../../../../assets/models/products";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import Model from "../../../components/three/model";
-import { AntDesign } from '@expo/vector-icons';
+import { AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';
+
 import Touchable from "../../../components/touchable";
 
 
@@ -21,6 +22,15 @@ const configs: WithSpringConfig = {
     restSpeedThreshold: 2,
     reduceMotion: ReduceMotion.System
 }
+
+const maxHeights = 2.4
+const minHeights = 3.5
+
+const maxScale = 2;
+const minScale = 1.5;
+
+const maxPosition = -2;
+const minPoistion = -1;
 
 export default function ProductPage() {
     const dim = useDimensions('screen');
@@ -37,9 +47,9 @@ export default function ProductPage() {
 
 
     const y = useSharedValue(0);
-    const scale = useSharedValue(2);
-    const position = useSharedValue(-2);
-    const height = useSharedValue((dim.height - Constants.statusBarHeight) / 2);
+    const scale = useSharedValue(maxScale);
+    const position = useSharedValue(maxPosition);
+    const height = useSharedValue((dim.height - Constants.statusBarHeight) / maxHeights);
 
     const onScoll = useAnimatedScrollHandler((event) => {
         y.value = event.contentOffset.y;
@@ -63,13 +73,13 @@ export default function ProductPage() {
 
     useDerivedValue(() => {
         if (y.value > 50) {
-            height.value = withSpring((dim.height - Constants.statusBarHeight) / 3, configs);
-            scale.value = withSpring(1.5);
-            position.value = withSpring(0, configs);
+            height.value = withSpring((dim.height - Constants.statusBarHeight) / minHeights, configs);
+            scale.value = withSpring(minScale);
+            position.value = withSpring(minPoistion, configs);
         } else {
-            height.value = withSpring((dim.height - Constants.statusBarHeight) / 2, configs);
-            scale.value = withSpring(2);
-            position.value = withSpring(-2, configs);
+            height.value = withSpring((dim.height - Constants.statusBarHeight) / maxHeights, configs);
+            scale.value = withSpring(maxScale);
+            position.value = withSpring(maxPosition, configs);
         }
     }, [])
 
@@ -88,7 +98,7 @@ export default function ProductPage() {
                 </Touchable>
             </View>
             <Animated.View style={animatedStyle} className="bg-white rounded-3xl mx-4" />
-            <View style={{ marginTop: Constants.statusBarHeight + 64 }} className=" absolute h-1/2 w-full  ">
+            <View style={{ marginTop: Constants.statusBarHeight }} className=" absolute h-1/2 w-full  ">
                 <Canvas shadows='soft' >
                     <ambientLight intensity={Math.PI / 2} />
                     <spotLight position={[0, 10, 0]} angle={0.15} penumbra={2} decay={0} intensity={Math.PI} />
@@ -114,11 +124,37 @@ export default function ProductPage() {
 
             <Animated.ScrollView onScroll={onScoll} contentContainerStyle={{ paddingBottom: 24 }}>
                 <View className="px-6">
-                    <Animated.Text className="text-right text-lg py-4">
+                    <Animated.Text className="text-right text-lg pb-8">
                         {item?.description}
                     </Animated.Text>
                 </View>
 
+                <View className="mb-8 px-6 flex-row flex-wrap justify-end">
+                    <View style={{ width: (dim.width / 2) - 28 }} className="mb-4">
+                        <View className="flex-row space-x-2 items-center justify-end">
+                            <Text className="text-right font-semibold">المادة</Text>
+                            <MaterialCommunityIcons name="crystal-ball" size={22} color="black" />
+                        </View>
+                        <Text className=" text-right mr-7">طين</Text>
+                    </View>
+                    <View style={{ width: (dim.width / 2) - 28 }} className="mb-4">
+                        <View className="flex-row space-x-2 items-center justify-end">
+                            <Text className="text-right font-semibold">التوصيل</Text>
+                            <MaterialCommunityIcons name="truck-delivery-outline" size={22} color="black" />
+                        </View>
+                        <Text className=" text-right mr-7">مجاناً</Text>
+                    </View>
+                    <View style={{ width: (dim.width / 2) - 28 }}>
+                        <View className="flex-row space-x-2 items-center justify-end">
+                            <Text className="text-right font-semibold">المقاسات</Text>
+                            <MaterialCommunityIcons name="move-resize" size={22} color="black" />
+                        </View>
+                        <View className="flex-row items-center justify-end space-x-2 mr-7">
+                            <Text className=" text-right">سم</Text>
+                            <Text className=" text-right">٣٠٠٠٠ x ٢٠٠٠</Text>
+                        </View>
+                    </View>
+                </View>
 
                 <View className="mb-8">
                     <View className="flex-row items-center justify-end mx-6 space-x-2 py-2 border-b border-t border-[#cccccc]">
@@ -166,9 +202,9 @@ export default function ProductPage() {
                             <View className="flex-row items-center space-x-2 justify-end">
                                 <Text className="text-right">{review.stars} نجوم</Text>
                                 <View style={{ height: 4, width: 4, backgroundColor: 'black' }} />
-                                <Text className="text-right font-bold">{review.name}</Text>
+                                <Text className="text-right font-bold text-lg">{review.name}</Text>
                             </View>
-                            <Text className="text-right py-1">{review.review}</Text>
+                            <Text className="text-right text-lg">{review.review}</Text>
                         </View>
                     ))}
                 </View>
