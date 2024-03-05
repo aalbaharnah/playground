@@ -2,15 +2,14 @@ import { View, StyleSheet, Text, Image } from "react-native";
 import { Canvas } from '@react-three/fiber';
 import Animated, { ReduceMotion, WithSpringConfig, interpolate, useAnimatedScrollHandler, useAnimatedStyle, useDerivedValue, useSharedValue, withSpring } from "react-native-reanimated";
 import { useEffect, useState } from "react";
-import Bear from "../../../components/three/bear";
 import Constants from "expo-constants";
 import useDimensions from "../../../hooks/useDimensions";
 import products, { Product } from "../../../../assets/models/products";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import Model from "../../../components/three/model";
 import { AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';
-
 import Touchable from "../../../components/touchable";
+import { ArrowLeft, BoxAlt, Gem, Interlining, ShoppingBag } from "../../../components/icons";
 
 
 const configs: WithSpringConfig = {
@@ -26,10 +25,10 @@ const configs: WithSpringConfig = {
 const maxHeights = 2.4
 const minHeights = 3.5
 
-const maxScale = 2;
-const minScale = 1.5;
+const maxScale = 2.3;
+const minScale = 1.8;
 
-const maxPosition = -2;
+const maxPosition = -2.4;
 const minPoistion = -1;
 
 export default function ProductPage() {
@@ -60,15 +59,15 @@ export default function ProductPage() {
     }))
 
     const animatedCategoryHeight = useAnimatedStyle(() => ({
-        height: interpolate(scale.value, [2, 1.5], [24, 0], 'clamp'),
+        height: interpolate(scale.value, [maxScale, minScale], [24, 0], 'clamp'),
     }))
 
     const animatedText = useAnimatedStyle(() => ({
-        fontSize: interpolate(scale.value, [2, 1.5], [30, 24], 'clamp'),
+        fontSize: interpolate(scale.value, [maxScale, minScale], [30, 24], 'clamp'),
     }))
 
     const animatedCurrency = useAnimatedStyle(() => ({
-        fontSize: interpolate(scale.value, [2, 1.5], [20, 14], 'clamp'),
+        fontSize: interpolate(scale.value, [maxScale, minScale], [20, 14], 'clamp'),
     }))
 
     useDerivedValue(() => {
@@ -90,15 +89,16 @@ export default function ProductPage() {
                     className="h-12 w-12 justify-center items-center"
                     onPress={() => router.back()}
                 >
-                    <AntDesign name="arrowleft" size={24} color="black" />
+                    <ArrowLeft height={30} width={30} />
                 </Touchable>
 
                 <Touchable className="h-12 w-12 justify-center items-center">
-                    <AntDesign name="hearto" size={24} color="black" />
+                    {/* <AntDesign name="hearto" size={24} color="black" /> */}
+                    <ShoppingBag height={26} width={26} />
                 </Touchable>
             </View>
             <Animated.View style={animatedStyle} className="bg-white rounded-3xl mx-4" />
-            <View style={{ marginTop: Constants.statusBarHeight }} className=" absolute h-1/2 w-full  ">
+            <View style={{ marginTop: Constants.statusBarHeight + 48, height: 300 }} className=" absolute w-full  ">
                 <Canvas shadows='soft' >
                     <ambientLight intensity={Math.PI / 2} />
                     <spotLight position={[0, 10, 0]} angle={0.15} penumbra={2} decay={0} intensity={Math.PI} />
@@ -111,11 +111,11 @@ export default function ProductPage() {
 
             <View className="px-6 py-4">
                 <Animated.View style={animatedCategoryHeight}>
-                    <Animated.Text className=" font-bold text-[#b8b8b8] text-right">فنون</Animated.Text>
+                    <Animated.Text className=" font-bold text-[#b8b8b8] text-right">مجسمات</Animated.Text>
                 </Animated.View>
                 <View className="flex-row items-center justify-between w-full">
                     <View className="flex-row items-baseline space-x-2">
-                        <Animated.Text style={animatedCurrency}>ريال</Animated.Text>
+                        <Animated.Text className="text-[#374957]" style={animatedCurrency}>ريال</Animated.Text>
                         <Animated.Text style={animatedText} className=" font-bold">{item?.price}</Animated.Text>
                     </View>
                     <Animated.Text style={animatedText} className=" font-bold text-right">{item?.name}</Animated.Text>
@@ -132,33 +132,33 @@ export default function ProductPage() {
                 <View className="mb-8 px-6 flex-row flex-wrap justify-end">
                     <View style={{ width: (dim.width / 2) - 28 }} className="mb-4">
                         <View className="flex-row space-x-2 items-center justify-end">
-                            <Text className="text-right font-semibold">المادة</Text>
-                            <MaterialCommunityIcons name="crystal-ball" size={22} color="black" />
+                            <Text className="text-right font-semibold text-base mx-2">المادة</Text>
+                            <Gem width={22.5} height={22.5} />
                         </View>
-                        <Text className=" text-right mr-7">طين</Text>
+                        <Text className=" text-right mr-8 text-base">طين</Text>
                     </View>
                     <View style={{ width: (dim.width / 2) - 28 }} className="mb-4">
                         <View className="flex-row space-x-2 items-center justify-end">
-                            <Text className="text-right font-semibold">التوصيل</Text>
-                            <MaterialCommunityIcons name="truck-delivery-outline" size={22} color="black" />
+                            <Text className="text-right font-semibold text-base mx-2">التوصيل</Text>
+                            <BoxAlt width={22} height={22} />
                         </View>
-                        <Text className=" text-right mr-7">مجاناً</Text>
+                        <Text className=" text-right mr-7 text-base">مجاناً</Text>
                     </View>
                     <View style={{ width: (dim.width / 2) - 28 }}>
-                        <View className="flex-row space-x-2 items-center justify-end">
-                            <Text className="text-right font-semibold">المقاسات</Text>
-                            <MaterialCommunityIcons name="move-resize" size={22} color="black" />
+                        <View className="flex-row items-center justify-end">
+                            <Text className="text-right text-base font-semibold mx-2">المقاسات</Text>
+                            <Interlining height={22} width={22} />
                         </View>
-                        <View className="flex-row items-center justify-end space-x-2 mr-7">
-                            <Text className=" text-right">سم</Text>
-                            <Text className=" text-right">٣٠٠٠٠ x ٢٠٠٠</Text>
+                        <View className="flex-row items-center justify-end space-x-2 mr-8">
+                            <Text className="text-right text-base">سم</Text>
+                            <Text className="text-right text-base">٣٠٠٠٠ x ٢٠٠٠</Text>
                         </View>
                     </View>
                 </View>
 
                 <View className="mb-8">
                     <View className="flex-row items-center justify-end mx-6 space-x-2 py-2 border-b border-t border-[#cccccc]">
-                        <Text className="font-bold text-xl">يمكن يعجبك التالي</Text>
+                        <Text className="font-bold text-xl">يمكن يعجبك</Text>
                     </View>
                     <Animated.ScrollView
                         horizontal
@@ -215,8 +215,7 @@ export default function ProductPage() {
 
             <View>
                 <Touchable
-                    style={{ height: 68 }}
-                    className="absolute bottom-0 w-full bg-emerald-500 items-center justify-center"
+                    className="absolute bottom-0 w-full pt-4 pb-8 bg-emerald-500 items-center justify-center"
                     onPress={() => router.push('cart')}
                 >
                     <Text className="text-white text-xl font-bold">أضف إلى السلة</Text>
