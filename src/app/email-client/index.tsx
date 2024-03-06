@@ -1,12 +1,13 @@
-import { Text, View } from "react-native";
+import { Text, View, DeviceEventEmitter } from "react-native";
 import { Feather } from '@expo/vector-icons';
 import Touchable from "../../components/touchable";
 import { Option } from "../../components/email-client/option";
 import Folder from "../../components/email-client/folder";
 import Mail from "../../components/email-client/mail";
-import { useState } from "react";
-import Animated, { LinearTransition } from "react-native-reanimated";
+import { createContext, useContext, useState } from "react";
+import Animated, { CurvedTransition, Easing, LinearTransition } from "react-native-reanimated";
 import { generateID } from "../../lib/utils";
+import EmailProvider from "../../context/email-context";
 
 type Email = {
     sender: string;
@@ -18,6 +19,8 @@ type Email = {
 export default function EmailClient() {
     const [data, setData] = useState<Email[]>([]);
 
+    const [selected, setSelected] = useState<string[]>([]);
+
     const addEmails = () => {
         const id = generateID();
         const email: Email = { ...emails[Math.floor(Math.random() * emails.length)], id };
@@ -28,11 +31,21 @@ export default function EmailClient() {
         setData((prev) => prev.filter((i) => i.id !== id));
     }
 
+    const deleteSelected = () => {
+        // setData((prev) => prev.filter((i) => !selected.includes(i.id)));
+        DeviceEventEmitter.emit('mail-delete', selected);
+        setSelected([]);
+    }
+
+    const onSelectEmail = (id: string) => {
+        setSelected((prev) => selected.includes(id) ? prev.filter((i) => i !== id) : [...prev, id]);
+    }
+
     return (
         <View className="flex-1 bg-[#F4EAE0] flex-row md:p-8">
             <View className="flex-1 bg-white  rounded-3xl">
                 <View className="flex-row items-center mt-16 md:mt-0 pt-12 md:pt-0 py-2 border-b border-[#F4DFC8] justify-between mx-4">
-                    <Touchable className="p-2">
+                    <Touchable className="p-2" onPress={() => deleteSelected()}>
                         <Feather name="trash" size={20} color="#000" />
                     </Touchable>
                     <View className="flex-row items-center">
@@ -44,20 +57,25 @@ export default function EmailClient() {
                         </Touchable>
                     </View>
                 </View>
-                <Animated.FlatList
-                    data={data}
-                    keyExtractor={({ id }) => id}
+                <Animated.ScrollView
                     contentContainerStyle={{ paddingTop: 8 }}
+                    style={{ flexGrow: 0 }}
                     showsVerticalScrollIndicator={false}
-                    renderItem={({ item, index }) => (
+                >
+                    {data.map((item, index) => (
                         <Mail
+                            key={item.id}
+                            id={item.id}
                             name={item.sender}
                             message={item.content}
                             subject={item.subject}
-                            onPress={() => deleteEmail(item.id)}
+                            selected={selected.includes(item.id)}
+                            onPress={() => onSelectEmail(item.id)}
+                            onDelete={() => deleteEmail(item.id)}
                         />
-                    )}
-                />
+                    ))}
+                </Animated.ScrollView>
+
             </View>
             <View className=" hidden md:flex" style={{ flex: 0.3333 }}>
                 <View className="ml-5 border-b border-[#ebd9c6] ">
