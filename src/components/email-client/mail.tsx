@@ -1,4 +1,4 @@
-import { memo, useEffect} from "react";
+import { memo, useEffect } from "react";
 import { Pressable, DeviceEventEmitter } from "react-native";
 import Animated, { ReduceMotion, LinearTransition, interpolate, useAnimatedStyle, useSharedValue, withDelay, withSpring, withTiming, runOnJS, LayoutAnimationConfig, interpolateColor, Easing } from "react-native-reanimated";
 
@@ -38,7 +38,7 @@ function Mail(props: MailProps) {
             if (selectedMails.includes(props.id)) {
                 height.value = withTiming(0, {
                     duration: 500,
-                    easing: Easing.linear,
+                    easing: Easing.bezier(0.333, 0.01, 0, 1),
                     reduceMotion: ReduceMotion.System
                 }, (finished) => {
                     runOnJS(props.onDelete)();
@@ -52,8 +52,8 @@ function Mail(props: MailProps) {
         return ({
             height: height.value,
             paddingVertical: interpolate(height.value, [100, 0], [16, 0]),
-            opacity: interpolate(height.value, [100, 0], [1, 0]),
-
+            opacity: interpolate(height.value, [100, 50], [1, 0]),
+            backgroundColor: interpolateColor(selected.value, [0, 1], ['white', '#976635']),
         })
     }, [])
 
@@ -63,23 +63,15 @@ function Mail(props: MailProps) {
         }
     }, [])
 
-    const animatedContainer = useAnimatedStyle(() => {
-        return {
-            backgroundColor: interpolateColor(selected.value, [0, 1], ['white', '#976635']),
-        }
-    })
-
     return (
         <AnimatedPressable
             style={[animatedStyle, { zIndex: props.selected ? -1 : 1 }]}
             onPress={props.onPress}
-            className="mx-2 justify-center border-b border-[#F4DFC8] overflow-hidden"
+            className="mx-2 px-2 justify-center border-b border-[#F4DFC8] overflow-hidden"
         >
-            <Animated.View className="px-2 rounded-lg" style={animatedContainer}>
-                <Animated.Text style={animatedTextStyle} className=" font-bold text-lg text-right">{props.name}</Animated.Text>
-                <Animated.Text style={animatedTextStyle} className=" my-2 font-semibold text-base text-right">{props.subject}</Animated.Text>
-                <Animated.Text style={animatedTextStyle} numberOfLines={2} className=" text-right text-base">{props.message}</Animated.Text>
-            </Animated.View>
+            <Animated.Text style={[animatedTextStyle, { lineHeight: 38 }]} className="text-lg font-rawasi-black text-right">{props.name}</Animated.Text>
+            <Animated.Text style={[animatedTextStyle, { lineHeight: 30 }]} className="my-2 font-rawasi-bold text-lg text-right">{props.subject}</Animated.Text>
+            <Animated.Text style={[animatedTextStyle, { lineHeight: 24 }]} numberOfLines={2} className="text-right font-rawasi-regular text-base">{props.message}</Animated.Text>
         </AnimatedPressable>
     )
 }

@@ -13,7 +13,7 @@ export function Option(props: OptionProps) {
         <Touchable className=" flex-row items-center justify-between p-4 ">
             <Text className="font-semibold">{props.count}</Text>
             <View className="flex-row items-center justify-end ">
-                <Text className="mr-4 font-semibold">{props.name}</Text>
+                <Text className="mr-4 font-rawasi-bold text-lg top-1">{props.name}</Text>
                 <Feather name={props.icon as 'trash'} size={24} color="#000" />
             </View>
         </Touchable>
