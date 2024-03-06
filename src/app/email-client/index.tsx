@@ -4,10 +4,11 @@ import Touchable from "../../components/touchable";
 import { Option } from "../../components/email-client/option";
 import Folder from "../../components/email-client/folder";
 import Mail from "../../components/email-client/mail";
-import { createContext, useContext, useState } from "react";
-import Animated, { CurvedTransition, Easing, LinearTransition } from "react-native-reanimated";
+import { createContext, useContext, useEffect, useState } from "react";
+import Animated, { CurvedTransition, Easing, LinearTransition, useAnimatedStyle, useSharedValue, withSpring } from "react-native-reanimated";
 import { generateID } from "../../lib/utils";
 import EmailProvider from "../../context/email-context";
+import { DeletedFile, FileIcon, InboxIcon, MessageIcon, PaperPlane, SearchIcon, StarIcon, TrashIcon } from "../../components/icons";
 
 type Email = {
     sender: string;
@@ -17,6 +18,7 @@ type Email = {
 }
 
 export default function EmailClient() {
+    const width = useSharedValue(0);
     const [data, setData] = useState<Email[]>([]);
 
     const [selected, setSelected] = useState<string[]>([]);
@@ -41,19 +43,25 @@ export default function EmailClient() {
         setSelected((prev) => selected.includes(id) ? prev.filter((i) => i !== id) : [...prev, id]);
     }
 
+    const aniamtedStyle = useAnimatedStyle(() => {
+        return {
+            width: width.value
+        }
+    }, [])
+
     return (
         <View className="flex-1 bg-[#F4EAE0] flex-row md:p-8">
             <View className="flex-1 bg-white  rounded-3xl">
                 <View className="flex-row items-center mt-16 md:mt-0 pt-12 md:pt-0 py-2 border-b border-[#F4DFC8] justify-between mx-4">
-                    <Touchable className="p-2" onPress={() => deleteSelected()}>
-                        <Feather name="trash" size={20} color="#000" />
+                    <Touchable className="h-8 items-center flex-row space-x-2" onPress={() => deleteSelected()}>
+                        <TrashIcon color="#000" />
                     </Touchable>
                     <View className="flex-row items-center">
-                        <Touchable className="p-2">
-                            <Feather name="search" size={20} color="#000" />
+                        <Touchable className="px-2 pt-1">
+                            <SearchIcon color="#000" />
                         </Touchable>
-                        <Touchable className="p-2" onPress={() => addEmails()}>
-                            <Feather name="message-square" size={20} color="#000" />
+                        <Touchable className="px-2 pt-1" onPress={() => addEmails()}>
+                            <MessageIcon color="#000" />
                         </Touchable>
                     </View>
                 </View>
@@ -82,38 +90,15 @@ export default function EmailClient() {
                     <Touchable className=" flex-row items-center py-2 px-4 bg-white justify-end rounded-3xl "
                         onPress={() => addEmails()}
                     >
-                        <Text className="mr-4 font-rawasi-bold text-lg top-1">{"رســالــة"}</Text>
+                        <Text className="mr-4 font-rawasi-bold text-lg top-1">{"رســالــة جـديــدة"}</Text>
                         <Feather name="plus" size={24} color="#000" />
                     </Touchable>
-                    <Option
-                        icon="inbox"
-                        count={14}
-                        name="الــوارد"
-                    />
 
-                    <Option
-                        icon="star"
-                        count={7}
-                        name="المفضــل"
-                    />
-
-                    <Option
-                        icon="send"
-                        count={4}
-                        name="المرســل"
-                    />
-
-                    <Option
-                        icon="file"
-                        count={10}
-                        name="المســودات"
-                    />
-
-                    <Option
-                        icon="trash"
-                        count={3}
-                        name="المحــذوف"
-                    />
+                    <Option name="الــوارد" count={14} icon={<InboxIcon color="#000" />} />
+                    <Option name="المفضــل" count={7} icon={<StarIcon color="#000" />} />
+                    <Option name="المرســل" count={4} icon={<PaperPlane color="#000" />} />
+                    <Option name="المســودات" count={10} icon={<FileIcon color="#000" />} />
+                    <Option name="المحــذوف" count={3} icon={<DeletedFile color="#000" />} />
                 </View>
                 <View className="ml-5 ">
                     <Touchable className=" flex-row items-center justify-between py-4 px-3 ">
@@ -121,28 +106,13 @@ export default function EmailClient() {
                         <Text className="font-rawasi-bold text-sm top-1 text-[#aa753c]">الملفات</Text>
                     </Touchable>
 
-                    <Folder
-                        name="أزرق"
-                        count={14}
-                        color="#056CC1"
-                    />
-
-
-                    <Folder
-                        name="أحــمر"
-                        count={7}
-                        color="#DF1E1E"
-                    />
-
-                    <Folder
-                        name="بـرتقــالي"
-                        count={7}
-                        color="#F2AC3C"
-                    />
+                    <Folder name="أزرق" count={14} color="#056CC1" />
+                    <Folder name="أحــمر" count={7} color="#DF1E1E" />
+                    <Folder name="بـرتقــالي" count={7} color="#F2AC3C" />
                 </View>
 
             </View>
-        </View>
+        </View >
     )
 }
 

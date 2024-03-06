@@ -1,9 +1,8 @@
 import { Text, View } from "react-native";
-import { Feather } from '@expo/vector-icons';
 import Touchable from "../touchable";
 
 interface OptionProps {
-    icon: string;
+    icon: React.ReactNode;
     count: number;
     name: string;
 }
@@ -14,7 +13,7 @@ export function Option(props: OptionProps) {
             <Text className="font-semibold">{props.count}</Text>
             <View className="flex-row items-center justify-end ">
                 <Text className="mr-4 font-rawasi-bold text-lg top-1">{props.name}</Text>
-                <Feather name={props.icon as 'trash'} size={24} color="#000" />
+                {props.icon}
             </View>
         </Touchable>
     )

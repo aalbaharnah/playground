@@ -1,6 +1,7 @@
 import { Text, View } from "react-native";
 import { Feather } from '@expo/vector-icons';
 import Touchable from "../touchable";
+import { SquareIcon } from "../icons";
 
 interface FolderProps {
     name: string;
@@ -14,7 +15,7 @@ export default function Folder(props: FolderProps) {
             <Text className="font-semibold">{props.count}</Text>
             <View className="flex-row items-center justify-end ">
                 <Text className={`mr-4 font-rawasi-bold text-base top-1 text-[${props.color}]`}>{props.name}</Text>
-                <Feather name="square" size={18} color={props.color} />
+                <SquareIcon width={18} height={18} color={props.color} />
             </View>
         </Touchable>
     )
