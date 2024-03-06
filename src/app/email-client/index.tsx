@@ -7,8 +7,8 @@ import Mail from "../../components/email-client/mail";
 import { createContext, useContext, useEffect, useState } from "react";
 import Animated, { CurvedTransition, Easing, LinearTransition, useAnimatedStyle, useSharedValue, withSpring } from "react-native-reanimated";
 import { generateID } from "../../lib/utils";
-import EmailProvider from "../../context/email-context";
-import { DeletedFile, FileIcon, InboxIcon, MessageIcon, PaperPlane, SearchIcon, StarIcon, TrashIcon } from "../../components/icons";
+import Constants from "expo-constants";
+import { AddressbookIcon, CalendarIcon, DeletedFile, FileIcon, InboxIcon, MessageIcon, PaperPlane, SearchIcon, SettingsIcon, StarIcon, TrashIcon } from "../../components/icons";
 
 type Email = {
     sender: string;
@@ -50,69 +50,91 @@ export default function EmailClient() {
     }, [])
 
     return (
-        <View className="flex-1 bg-[#F4EAE0] flex-row md:p-8">
-            <View className="flex-1 bg-white  rounded-3xl">
-                <View className="flex-row items-center mt-16 md:mt-0 pt-12 md:pt-0 py-2 border-b border-[#F4DFC8] justify-between mx-4">
-                    <Touchable className="h-8 items-center flex-row space-x-2" onPress={() => deleteSelected()}>
-                        <TrashIcon color="#000" />
-                    </Touchable>
-                    <View className="flex-row items-center">
-                        <Touchable className="px-2 pt-1">
-                            <SearchIcon color="#000" />
-                        </Touchable>
-                        <Touchable className="px-2 pt-1" onPress={() => addEmails()}>
-                            <MessageIcon color="#000" />
-                        </Touchable>
+        <View style={{ paddingTop: Constants.statusBarHeight }} className="flex-1 bg-[#F4EAE0] ">
+            <View className="md:px-8 py-4 flex-row  justify-between items-center">
+                <View className="flex-row px-2 mx-1 items-center space-x-4">
+                    <View className="border rounded-full h-8 w-8 items-center justify-center border-dashed">
+                        <Text className=" text-2xl ">{"😀"}</Text>
+                    </View>
+                    <View>
+                        <SettingsIcon color="#000" />
+                    </View>
+                    <View>
+                        <AddressbookIcon color="#000" />
+                    </View>
+                    <View>
+                        <CalendarIcon color="#000" />
+                        <View className=" bg-red h-4 w-4 items-center justify-center rounded-full absolute -top-1 -right-1">
+                            <Text className="text-white font-bold text-xs">3</Text>
+                        </View>
                     </View>
                 </View>
-                <Animated.ScrollView
-                    contentContainerStyle={{ paddingTop: 8 }}
-                    style={{ flexGrow: 0 }}
-                    showsVerticalScrollIndicator={false}
-                >
-                    {data.map((item, index) => (
-                        <Mail
-                            key={item.id}
-                            id={item.id}
-                            name={item.sender}
-                            message={item.content}
-                            subject={item.subject}
-                            selected={selected.includes(item.id)}
-                            onPress={() => onSelectEmail(item.id)}
-                            onDelete={() => deleteEmail(item.id)}
-                        />
-                    ))}
-                </Animated.ScrollView>
-
+                <Text style={{ lineHeight: 42 }} className="mx-4 font-rawasi-bold text-2xl top-1">{"البــريــد الإلـكتــرونــي"}</Text>
             </View>
-            <View className=" hidden md:flex" style={{ flex: 0.3333 }}>
-                <View className="ml-5 border-b border-[#ebd9c6] ">
-                    <Touchable className=" flex-row items-center py-2 px-4 bg-white justify-end rounded-3xl "
-                        onPress={() => addEmails()}
+            <View className="flex-1 flex-row md:px-8 md:pb-8">
+                <View className="flex-1 bg-white overflow-hidden  rounded-3xl">
+                    <View className="flex-row items-center mt-16 md:mt-0 pt-12 md:pt-0 py-2 border-b border-[#F4DFC8] justify-between mx-4">
+                        <Touchable className="h-8 items-center flex-row space-x-2" onPress={() => deleteSelected()}>
+                            <TrashIcon color="#000" />
+                        </Touchable>
+                        <View className="flex-row items-center">
+                            <Touchable className="px-2 pt-1">
+                                <SearchIcon color="#000" />
+                            </Touchable>
+                            <Touchable className="px-2 pt-1" onPress={() => addEmails()}>
+                                <MessageIcon color="#000" />
+                            </Touchable>
+                        </View>
+                    </View>
+                    <Animated.ScrollView
+                        contentContainerStyle={{ paddingTop: 8 }}
+                        style={{ flexGrow: 0 }}
+                        showsVerticalScrollIndicator={false}
                     >
-                        <Text className="mr-4 font-rawasi-bold text-lg top-1">{"رســالــة جـديــدة"}</Text>
-                        <Feather name="plus" size={24} color="#000" />
-                    </Touchable>
+                        {data.map((item, index) => (
+                            <Mail
+                                key={item.id}
+                                id={item.id}
+                                name={item.sender}
+                                message={item.content}
+                                subject={item.subject}
+                                selected={selected.includes(item.id)}
+                                onPress={() => onSelectEmail(item.id)}
+                                onDelete={() => deleteEmail(item.id)}
+                            />
+                        ))}
+                    </Animated.ScrollView>
 
-                    <Option name="الــوارد" count={14} icon={<InboxIcon color="#000" />} />
-                    <Option name="المفضــل" count={7} icon={<StarIcon color="#000" />} />
-                    <Option name="المرســل" count={4} icon={<PaperPlane color="#000" />} />
-                    <Option name="المســودات" count={10} icon={<FileIcon color="#000" />} />
-                    <Option name="المحــذوف" count={3} icon={<DeletedFile color="#000" />} />
                 </View>
-                <View className="ml-5 ">
-                    <Touchable className=" flex-row items-center justify-between py-4 px-3 ">
-                        <Feather name="plus" size={18} color="#aa753c" />
-                        <Text className="font-rawasi-bold text-sm top-1 text-[#aa753c]">الملفات</Text>
-                    </Touchable>
+                <View className=" hidden md:flex" style={{ flex: 0.3333 }}>
+                    <View className="ml-5 border-b border-[#ebd9c6] ">
+                        <Touchable className=" flex-row items-center py-2 px-4 bg-white justify-end rounded-3xl "
+                            onPress={() => addEmails()}
+                        >
+                            <Text className="mr-4 font-rawasi-bold text-lg top-1">{"رســالــة جـديــدة"}</Text>
+                            <Feather name="plus" size={24} color="#000" />
+                        </Touchable>
 
-                    <Folder name="أزرق" count={14} color="#056CC1" />
-                    <Folder name="أحــمر" count={7} color="#DF1E1E" />
-                    <Folder name="بـرتقــالي" count={7} color="#F2AC3C" />
+                        <Option name="الــوارد" count={14} icon={<InboxIcon color="#000" />} />
+                        <Option name="المفضــل" count={7} icon={<StarIcon color="#000" />} />
+                        <Option name="المرســل" count={4} icon={<PaperPlane color="#000" />} />
+                        <Option name="المســودات" count={10} icon={<FileIcon color="#000" />} />
+                        <Option name="المحــذوف" count={3} icon={<DeletedFile color="#000" />} />
+                    </View>
+                    <View className="ml-5 ">
+                        <Touchable className=" flex-row items-center justify-between py-4 px-3 ">
+                            <Feather name="plus" size={18} color="#aa753c" />
+                            <Text className="font-rawasi-bold text-sm top-1 text-[#aa753c]">الملفات</Text>
+                        </Touchable>
+
+                        <Folder name="أزرق" count={14} color="#056CC1" />
+                        <Folder name="أحــمر" count={7} color="#DF1E1E" />
+                        <Folder name="بـرتقــالي" count={7} color="#F2AC3C" />
+                    </View>
+
                 </View>
-
             </View>
-        </View >
+        </View>
     )
 }
 
