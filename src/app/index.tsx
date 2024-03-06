@@ -10,7 +10,7 @@ export default function Index() {
     return (
         <View className="flex-1  bg-background" style={{ paddingTop: Constants.statusBarHeight }}>
             <FlatList
-                data={['drag-emoji', 'email-client', 'three', 'gl-view']}
+                data={['drag-emoji', 'email-client', 'three', 'gl-view', 'bicycle']}
                 keyExtractor={(item) => item}
                 ItemSeparatorComponent={() => <View className="h-1 " />}
                 renderItem={({ item }) => (
