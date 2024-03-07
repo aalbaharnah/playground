@@ -69,7 +69,7 @@ export default function EmailClient() {
                         </View>
                     </View>
                 </View>
-                <Text style={{ lineHeight: 42 }} className="mx-4 font-rawasi-bold text-2xl top-1">{"البــريــد الإلـكتــرونــي"}</Text>
+                <Text style={{ lineHeight: 42 }} className="mx-4 font-rawasi-black text-2xl top-1">{"البــريــد الإلـكتــرونــي"}</Text>
             </View>
             <View className="flex-1 flex-row md:px-8 md:pb-8">
                 <View className="flex-1 bg-white overflow-hidden  rounded-3xl">
