@@ -10,6 +10,7 @@ import Model from "../../../components/three/model";
 import { AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';
 import Touchable from "../../../components/touchable";
 import { ArrowLeft, BoxAlt, Gem, Interlining, ShoppingBag } from "../../../components/icons";
+import { ContactShadows } from "@react-three/drei/native";
 
 
 const configs: WithSpringConfig = {
