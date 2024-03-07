@@ -51,8 +51,8 @@ export default function EmailClient() {
 
     return (
         <View style={{ paddingTop: Constants.statusBarHeight }} className="flex-1 bg-[#F4EAE0] ">
-            <View className="md:px-8 py-4 flex-row  justify-between items-center">
-                <View className="flex-row px-2 mx-1 items-center space-x-4">
+            <View className="md:px-8 px-2 py-4 flex-row  justify-between items-center">
+                <View className="flex-row px-2 mx-1 md:mx-4 items-center space-x-2 md:space-x-4">
                     <View className="border rounded-full h-8 w-8 items-center justify-center border-dashed">
                         <Text className=" text-2xl ">{"😀"}</Text>
                     </View>
@@ -72,8 +72,8 @@ export default function EmailClient() {
                 <Text style={{ lineHeight: 42 }} className="mx-4 font-rawasi-black text-2xl top-1">{"البــريــد الإلـكتــرونــي"}</Text>
             </View>
             <View className="flex-1 flex-row md:px-8 md:pb-8">
-                <View className="flex-1 bg-white overflow-hidden  rounded-3xl">
-                    <View className="flex-row items-center mt-16 md:mt-0 pt-12 md:pt-0 py-2 border-b border-[#F4DFC8] justify-between mx-4">
+                <View className="flex-1 mx-4 md:mx-0 bg-white overflow-hidden  rounded-3xl">
+                    <View className="flex-row items-center md:mt-16 mt-0 pt-12 md:pt-0 py-2 border-b border-[#F4DFC8] justify-between mx-4">
                         <Touchable className="h-8 items-center flex-row space-x-2" onPress={() => deleteSelected()}>
                             <TrashIcon color="#000" />
                         </Touchable>

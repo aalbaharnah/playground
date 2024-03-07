@@ -94,7 +94,6 @@ export default function ProductPage() {
                 </Touchable>
 
                 <Touchable className="h-12 w-12 justify-center items-center">
-                    {/* <AntDesign name="hearto" size={24} color="black" /> */}
                     <ShoppingBag height={26} width={26} />
                 </Touchable>
             </View>
