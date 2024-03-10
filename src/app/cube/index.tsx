@@ -37,9 +37,6 @@ function TheModel() {
         // z = ~~(z * 100) / 8000;
         ref.current?.rotateY(y)
         ref.current?.rotateX(x)
-        
-
-        
     })
 
     return (

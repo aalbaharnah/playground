@@ -48,7 +48,6 @@ export default function Model(props: BearProps) {
         ref.current?.rotateY(delta * 0.5)
 
         ref.current?.position.setY(props.position.value)
-        shadow.current?.position.setY(props.position.value)
     })
 
 
