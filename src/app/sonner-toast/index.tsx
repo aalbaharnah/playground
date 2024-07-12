@@ -1,4 +1,4 @@
-import { Text, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import OptionButton from "../../components/option-button";
 import { useLayoutEffect, useReducer } from "react";
 import { generateID } from "../../lib/utils";
@@ -121,8 +121,7 @@ function Message({ message, onPress, index, scale }: MessageProps) {
 
     return (
         <Animated.View
-            className="absolute bg-white top-0 mx-4 p-4 rounded-lg shadow w-11/12"
-            style={[animatedStyle, { zIndex: 90 + index }]}
+            style={[animatedStyle, styles.toast, { zIndex: 90 + index }]}
             exiting={FadeOut}
         >
             <View className="flex-row items-center justify-between">
@@ -137,3 +136,25 @@ function Message({ message, onPress, index, scale }: MessageProps) {
         </Animated.View>
     )
 }
+
+const styles = StyleSheet.create({
+    toast: {
+        position: 'absolute',
+        top: 0,
+        width: '91.666667%',
+        borderRadius: 12,
+        padding: 16,
+        marginHorizontal: 16,
+        backgroundColor: 'white',
+        // iOS:
+        shadowColor: 'rgba(0,0,0,0.4)',
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.22,
+        shadowRadius: 2.22,
+        // Android:
+        elevation: 4,
+    }
+})

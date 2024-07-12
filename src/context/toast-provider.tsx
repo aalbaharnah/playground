@@ -2,7 +2,7 @@
 import { Ionicons } from "@expo/vector-icons";
 import Animated, { FadeOut, ReduceMotion, WithSpringConfig, interpolate, runOnJS, useAnimatedStyle, useSharedValue, withSpring } from "react-native-reanimated";
 import { createContext, useContext, useLayoutEffect, useReducer } from "react";
-import { Text, View } from "react-native";
+import { Text, View, StyleSheet } from "react-native";
 import Touchable from "../components/touchable";
 
 export type MessageAction = {
@@ -55,10 +55,7 @@ const reducer = (state: typeof initialState, action: any) => {
 export default function ToastProvider(props: { children: React.ReactNode }) {
     const [state, dispatch] = useReducer(reducer, initialState);
 
-    console.log(state.messages)
-
     const addToast = (action: MessageAction) => {
-        console.log(action)
         dispatch({
             type: "PUSH_MESSAGE",
             payload: {
@@ -156,11 +153,7 @@ function Message({ message, onPress, index, scale }: MessageProps) {
     }
 
     return (
-        <Animated.View
-            className="absolute bg-white top-0 mx-4 p-4 rounded-lg shadow w-11/12"
-            style={[animatedStyle, { zIndex: 90 + index }]}
-            exiting={FadeOut}
-        >
+        <Animated.View style={[animatedStyle, styles.toast, { zIndex: 90 + index }]} exiting={FadeOut}>
             <View className="flex-row items-center justify-between">
                 <View>
                     <Text className="font-bold text-lg">{message.title}</Text>
@@ -173,3 +166,25 @@ function Message({ message, onPress, index, scale }: MessageProps) {
         </Animated.View>
     )
 }
+
+const styles = StyleSheet.create({
+    toast: {
+        position: 'absolute',
+        top: 0,
+        width: '91.666667%',
+        borderRadius: 12,
+        padding: 16,
+        marginHorizontal: 16,
+        backgroundColor: 'white',
+        // iOS:
+        shadowColor: 'rgba(0,0,0,0.4)',
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.22,
+        shadowRadius: 2.22,
+        // Android:
+        borderWidth: 1,
+    }
+})
