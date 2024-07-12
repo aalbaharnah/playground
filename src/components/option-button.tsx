@@ -8,29 +8,14 @@ import Animated, {
 import { Ionicons } from "@expo/vector-icons";
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
-export default function GameButton() {
-
-    return (
-        <View className="flex-1 bg-background">
-            <View className="flex-1">
-
-            </View>
-            <View className="flex-row items-center justify-center h-20 px-4 space-x-4 bg-slate-900">
-                <OptionButton style={styles.btn} title="الملاحظات" icon="clipboard-outline" />
-                <OptionButton style={styles.btn} title="الجدول" icon="today-outline" />
-                <OptionButton style={styles.btn} title="المهام" icon="golf-outline" />
-            </View>
-        </View>
-    )
-}
 
 interface OptionButtonProps extends PressableProps {
     title: string;
     onPress?: () => void;
     borderColor?: string;
-    icon: string;
+    icon?: string;
 }
-const OptionButton = ({ title, onPress, icon, style, ...rest }: OptionButtonProps) => {
+export default function OptionButton({ title, onPress, icon, style, ...rest }: OptionButtonProps) {
     const press = useSharedValue(0);
 
     const animatedStyle = useAnimatedStyle(() => {
@@ -40,23 +25,23 @@ const OptionButton = ({ title, onPress, icon, style, ...rest }: OptionButtonProp
     });
 
     const onPressIn = () => {
-        press.value = withTiming(1, { duration: 200 })
+        press.value = withTiming(1, { duration: 100 })
     }
 
     const onPressOut = () => {
-        press.value = withTiming(0, { duration: 400 })
+        press.value = withTiming(0, { duration: Math.PI * 100 })
     }
 
     return (
         <AnimatedPressable
-            style={[style, animatedStyle]}
+            style={[style, styles.btn, animatedStyle]}
             onPressIn={onPressIn}
             onPressOut={onPressOut}
             onPress={onPress}
             {...rest}
         >
             <Ionicons name={icon as 'today'} size={18} color="white" />
-            <Text className="text-white font-bold ml-1">{title}</Text>
+            <Text className="font-bold ml-1">{title}</Text>
 
         </AnimatedPressable>
     )

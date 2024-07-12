@@ -6,11 +6,20 @@ import { useRouter } from "expo-router";
 
 export default function Index() {
     const router = useRouter();
-
+    const routes = [
+        'drag-emoji',
+        'email-client',
+        'three',
+        'gl-view',
+        'bicycle',
+        'cube',
+        'game-button',
+        'sonner-toast'
+    ]
     return (
         <View className="flex-1  bg-background" style={{ paddingTop: Constants.statusBarHeight }}>
             <FlatList
-                data={['drag-emoji', 'email-client', 'three', 'gl-view', 'bicycle', 'cube', 'game-button']}
+                data={routes}
                 keyExtractor={(item) => item}
                 ItemSeparatorComponent={() => <View className="h-1 " />}
                 renderItem={({ item }) => (
