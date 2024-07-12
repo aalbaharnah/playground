@@ -142,6 +142,7 @@ const styles = StyleSheet.create({
         position: 'absolute',
         top: 0,
         width: '91.666667%',
+        maxWidth: 460,
         borderRadius: 12,
         padding: 16,
         marginHorizontal: 16,
