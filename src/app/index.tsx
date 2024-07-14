@@ -14,7 +14,8 @@ export default function Index() {
         'bicycle',
         'cube',
         'game-button',
-        'sonner-toast'
+        'sonner-toast',
+        'line-chart'
     ]
     return (
         <View className="flex-1  bg-background" style={{ paddingTop: Constants.statusBarHeight }}>
