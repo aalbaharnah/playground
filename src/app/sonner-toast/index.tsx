@@ -1,10 +1,11 @@
 import { StyleSheet, Text, View } from "react-native";
 import OptionButton from "../../components/option-button";
-import { useLayoutEffect, useReducer } from "react";
+import { useLayoutEffect, useReducer, useState } from "react";
 import { generateID } from "../../lib/utils";
 import Touchable from "../../components/touchable";
 import { Ionicons } from "@expo/vector-icons";
 import Animated, { FadeOut, FadeOutUp, ReduceMotion, WithSpringConfig, interpolate, runOnJS, useAnimatedStyle, useSharedValue, withSpring, withTiming } from "react-native-reanimated";
+import { Gesture, GestureDetector } from "react-native-gesture-handler";
 
 
 type MessageType = {
@@ -91,7 +92,10 @@ const config: WithSpringConfig = {
 
 function Message({ message, onPress, index, scale }: MessageProps) {
     const y = useSharedValue(0);
+    const offsetY = useSharedValue(0);
     const scaleValue = useSharedValue(scale);
+
+    const [timer, setTimer] = useState<NodeJS.Timeout | null>(null)
 
     useLayoutEffect(() => {
         scaleValue.value = withSpring(scale, config);
@@ -100,13 +104,36 @@ function Message({ message, onPress, index, scale }: MessageProps) {
 
     useLayoutEffect(() => {
         y.value = withSpring(100 - (index * 12), config);
+        setTimer(setTimeout(() => {
+            onPop()
+        }, 2000))
     }, [])
+
+    const pan = Gesture.Pan()
+        .onBegin(() => {
+            if (timer) {
+                runOnJS(clearTimeout)(timer);
+            }
+        })
+        .onChange((event) => {
+            console.log(event.translationY)
+            if (event.translationY < 200) {
+                offsetY.value = event.translationY;
+            }
+        })
+        .onFinalize(() => {
+            if(offsetY.value < -20) {
+                onPop();
+            }
+            offsetY.value = withSpring(0, config);
+        });
+
 
     const animatedStyle = useAnimatedStyle(() => {
         return {
             transform: [
                 {
-                    translateY: y.value
+                    translateY: y.value + offsetY.value
                 }, {
                     scale: interpolate(scaleValue.value, [1, 2, 3], [1, 0.9, 0.8])
                 }]
@@ -120,20 +147,22 @@ function Message({ message, onPress, index, scale }: MessageProps) {
     }
 
     return (
-        <Animated.View
-            style={[animatedStyle, styles.toast, { zIndex: 90 + index }]}
-            exiting={FadeOut}
-        >
-            <View className="flex-row items-center justify-between">
-                <View>
-                    <Text className="font-bold text-lg">{message.title}</Text>
-                    <Text className="text-gray-500">{message.description}</Text>
+        <GestureDetector gesture={pan}>
+            <Animated.View
+                style={[animatedStyle, styles.toast, { zIndex: 90 + index }]}
+                exiting={FadeOut}
+            >
+                <View className="flex-row items-center justify-between">
+                    <View>
+                        <Text className="font-bold text-lg">{message.title}</Text>
+                        <Text className="text-gray-500">{message.description}</Text>
+                    </View>
+                    <Touchable onPress={onPop}>
+                        <Ionicons name="close" size={18} color="black" />
+                    </Touchable>
                 </View>
-                <Touchable onPress={onPop}>
-                    <Ionicons name="close" size={18} color="black" />
-                </Touchable>
-            </View>
-        </Animated.View>
+            </Animated.View>
+        </GestureDetector>
     )
 }
 
