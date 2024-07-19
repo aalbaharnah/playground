@@ -77,6 +77,7 @@ const buildGraph = (
         minPrice,
         maxPrice,
         percentChange: datapoints.percent_change,
+        prices,
         path,
     };
 };
