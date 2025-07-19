@@ -15,7 +15,8 @@ export default function Index() {
         'cube',
         'game-button',
         'sonner-toast',
-        'line-chart'
+        'line-chart',
+        'bouncy-scrollview',
     ]
     return (
         <View className="flex-1  bg-background" style={{ paddingTop: Constants.statusBarHeight }}>
