@@ -1,8 +1,8 @@
 import { Suspense, useLayoutEffect, useRef } from "react";
 import { View } from "react-native";
 import { THREE } from "expo-three";
-import { Canvas, useFrame } from "@react-three/fiber/native";
-import { ContactShadows, useGLTF } from "@react-three/drei/native";
+import { Canvas, useFrame } from "@react-three/fiber";
+import { ContactShadows, useGLTF } from "@react-three/drei";
 import { SensorType, SharedValue, useAnimatedSensor, useSharedValue, withSpring } from "react-native-reanimated";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
 import useDimensions from "../../hooks/useDimensions";
@@ -24,7 +24,7 @@ export default function CubeScreen() {
             offsetX.value = withSpring(0);
         });
 
- 
+
     return (
         <View className="flex-1 bg-[#000]">
             <Canvas>

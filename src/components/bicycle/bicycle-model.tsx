@@ -1,8 +1,8 @@
-import { useFrame } from "@react-three/fiber/native";
+import { useFrame } from "@react-three/fiber";
 import { THREE } from "expo-three";
 import { useRef } from "react";
 import { SharedValue } from 'react-native-reanimated';
-import { useGLTF } from "@react-three/drei/native";
+import { useGLTF } from "@react-three/drei";
 import { GLTF } from "three/examples/jsm/loaders/GLTFLoader"
 
 type GLTFResult = GLTF & {
@@ -34,7 +34,7 @@ export default function BicycleModel(props: BearProps) {
     })
 
     return (
-        <group rotation={[0,0-1.57,0]} ref={ref} {...props} dispose={null} >
+        <group rotation={[0, 0 - 1.57, 0]} ref={ref} {...props} dispose={null} >
             <mesh geometry={nodes.Bike.geometry} material={nodes.Bike.material} >
                 <mesh geometry={nodes.Cube.geometry} material={nodes.Cube.material} position={[-0.06, 0.32, 0,]} scale={0.09} />
                 <group position={[-1.05, -1.18, 0,]} >

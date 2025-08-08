@@ -1,6 +1,6 @@
 import { View } from "react-native";
 import BicycleModel from "../../components/bicycle/bicycle-model";
-import { Canvas } from "@react-three/fiber/native";
+import { Canvas } from "@react-three/fiber";
 import { useSharedValue, withSpring } from "react-native-reanimated";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
 import Touchable from "../../components/touchable";

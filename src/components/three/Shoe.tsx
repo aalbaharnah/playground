@@ -1,4 +1,4 @@
-import { useFrame, useLoader } from "@react-three/fiber/native";
+import { useFrame, useLoader } from "@react-three/fiber";
 import { THREE } from "expo-three";
 import { useLayoutEffect, useMemo, useRef, useState } from "react";
 import { MTLLoader } from "three/examples/jsm/loaders/MTLLoader";
